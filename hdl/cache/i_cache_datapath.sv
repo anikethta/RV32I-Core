@@ -37,7 +37,6 @@ module i_cache_datapath(
 
     logic [nways_log - 1:0] ways_index;
 
-   // mux8 mux (.d0(), .d1(), .d2(), .d3(), .d4(), .d5(), .d6(), .d7(), block, )
 
 /* find_way(); finds the index of the way in which the tag matches. */
     function logic find_way();
