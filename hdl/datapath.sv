@@ -1,3 +1,9 @@
+`include "comps/mux2.sv"
+`include "comps/mux4.sv"
+`include "comps/mux6.sv"
+`include "comps/adder.sv"
+`include "comps/register.sv"
+
 module datapath(input logic clk, rst, 
                 input logic [2:0] ResultSrc, 
                 input logic [1:0] PCSrc,
@@ -8,8 +14,13 @@ module datapath(input logic clk, rst,
                 input logic [1:0] memwritefrmt,
                 input logic [2:0] ld_op,
                 output logic Branch_En, 
+
+/* PC is input for L1 instruction cache, Instr is output */
                 output logic [31:0] PC, 
-                input logic [31:0] Instr, 
+                input logic [31:0] Instr,
+
+/* ALUResult, WriteData is input for L1 data cache, ReadData is output */
+/* MemWrite is encapsulated within control signals */
                 output logic [31:0] ALUResult, WriteData,
                 input logic [31:0] ReadData);
 
