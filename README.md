@@ -1,11 +1,10 @@
 # RV32I implementation
 
-This is a RV32I core implemented with the intention of running within an Xilinx Spartan-7 FPGA <br />
-\n However, porting this to a FPGA will take a while...
+Ts (this) is a RV32I core (may be ported to a Xilinx Spartan-7 FPGA soon) <br />
 
 ## This is a WIP (currently single-cycle), currently working on:
-    - Finish L1 Data Cache, Pseudo-LRU implementation
-    - Pipelining
+    - Finish Unified L1 Cache
+    - p-LRU implementation
 
 ## To build tb with Verilator:
     - cd build

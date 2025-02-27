@@ -1,7 +1,8 @@
-module i_cache_control (
+module cache_control (
     input logic clk,
 /* CPU <-> Cache Controller */
     input logic cache_read,
+    input logic cache_write,
 
 /* Cache <-> Main Memory/L2 Cache Interface */
     input logic mmem_status,
@@ -11,14 +12,18 @@ module i_cache_control (
     output logic ld_v,
     output logic ld_tag,
     output logic ld_data,
-    input logic hit
+    input logic hit,
+
+    output logic wr_mode, 
+    output logic dirty_out, 
+    input logic dirty
 );
 
-    parameter IDLE = 2'b00, RMEM = 2'b01, WB = 2'b10;
+    parameter IDLE = 2'b00, COMP = 2'b01, WB = 2'b10 ;
     logic [1:0] state, next_state;
 
 
-    // 3-state FSM for I-cache
+    // 4-state FSM for cache
     always_comb begin
         /* Default */
         ld_v = 1'b0;
@@ -29,24 +34,12 @@ module i_cache_control (
             IDLE : begin
                 if (cache_read) begin
                     if (hit) begin
-                        // update LRU
+                        ld_v = 1'b1 ;
+                        ld_tag = 1'b1 ;
                     end
 
                     else mmem_r = 1'b1;
                 end
-            end
-
-            RMEM : begin
-                // buffer state to wait for memory read
-                if (mmem_status) begin
-                    ld_v = 1'b1;
-                    ld_tag = 1'b1;
-                    ld_data = 1'b1;
-                end
-            end
-
-            WB : begin
-                mmem_r = 1'b0;
             end
             
             default ;

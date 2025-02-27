@@ -1,10 +1,12 @@
-module darray #(parameter block_size = 256) (input logic clk, rst, load,
+module darray #(parameter block_size = 256, parameter setslogn = 3) (input logic clk, rst, load,
                 input logic [2:0] rd_addr, 
                 input logic [2:0] wr_addr,
                 input logic [block_size - 1:0] din, 
                 output logic [block_size - 1:0] dout );
 
-    logic [block_size - 1:0] data [5 : 0];
+    localparam sets = 2**setslogn;
+
+    logic [block_size - 1:0] data [sets - 1 : 0];
     logic [block_size - 1:0] out;
 
     always_ff @( posedge clk ) begin
